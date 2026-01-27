@@ -29,7 +29,7 @@ public class ProductService {
         ProductResponse response = new ProductResponse();
         response.setId(savedProduct.getId());
         response.setName(savedProduct.getName());
-        response.setStockQuantity(savedProduct.getStockQuantity());
+        response.setStockQuantity(String.valueOf(savedProduct.getStockQuantity()));
         response.setPrice(savedProduct.getPrice());
         response.setDescription(savedProduct.getDescription());
         response.setActive(savedProduct.getActive());
@@ -40,7 +40,7 @@ public class ProductService {
 
     private void updateProductFromRequest(Product product, ProductRequest productRequest) {
         product.setName(productRequest.getName());
-        product.setStockQuantity(productRequest.getStockQuantity());
+        product.setStockQuantity(Integer.valueOf(productRequest.getStockQuantity()));
         product.setPrice(productRequest.getPrice());
         product.setDescription(productRequest.getDescription());
         product.setImageUrl(productRequest.getImageUrl());

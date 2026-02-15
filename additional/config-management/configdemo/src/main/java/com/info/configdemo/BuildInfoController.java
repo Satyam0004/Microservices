@@ -3,27 +3,34 @@ package com.info.configdemo;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AllArgsConstructor
+//@AllArgsConstructor
+@RefreshScope
 public class BuildInfoController {
 
-//    @Value("${build.id}")
-//    private String buildId;
-//
-//    @Value("${build.version}")
-//    private String buildVersion;
-//
-//    @Value("${build.name}")
-//    private String buildName;
+    @Value("${build.id:default}")
+    private String buildId;
+
+    @Value("${build.version:default}")
+    private String buildVersion;
+
+    @Value("${build.name:default}")
+    private String buildName;
 
     private BuildInfo buildInfo;
 
     @GetMapping("/build-info")
     private String getBuildInfo() {
-        return "Build ID: " + buildInfo.getId() + ", Build Version: " + buildInfo.getVersion() + ", Build Name: " + buildInfo.getName();
+        return "Build ID: " + buildId + ", Build Version: " + buildVersion + ", Build Name: " + buildName;
     }
+
+//    @GetMapping("/build-info")
+//    private String getBuildInfo() {
+//        return "Build ID: " + buildInfo.getId() + ", Build Version: " + buildInfo.getVersion() + ", Build Name: " + buildInfo.getName();
+//    }
 }

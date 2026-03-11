@@ -1,4 +1,4 @@
-package com.demo.consumer;
+package com.demo.consumer.restemplate;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

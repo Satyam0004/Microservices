@@ -1,4 +1,4 @@
-package com.demo.consumer;
+package com.demo.consumer.restemplate;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

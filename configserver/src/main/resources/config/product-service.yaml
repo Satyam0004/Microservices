@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+#    url: jdbc:postgresql://ep-round-shadow-aha337wx-pooler.c-3.us-east-1.aws.neon.tech/product?user=neondb_owner&password=npg_CF4avy7XZusV&sslmode=require&channelBinding=require
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8081

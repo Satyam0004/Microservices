@@ -4,6 +4,11 @@ spring:
 #    url: jdbc:postgresql://ep-round-shadow-aha337wx-pooler.c-3.us-east-1.aws.neon.tech/product?user=neondb_owner&password=npg_CF4avy7XZusV&sslmode=require&channelBinding=require
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   jpa:
     show-sql: true
     hibernate:
@@ -12,3 +17,12 @@ spring:
 
 server:
   port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+app:
+  message: "Hello from product 2"

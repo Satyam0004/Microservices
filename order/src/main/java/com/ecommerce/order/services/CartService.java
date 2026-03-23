@@ -1,10 +1,12 @@
 package com.ecommerce.order.services;
 
 
+import com.ecommerce.order.clients.ProductServiceClient;
 import com.ecommerce.order.dtos.CartItemRequest;
+import com.ecommerce.order.dtos.ProductResponse;
 import com.ecommerce.order.models.CartItem;
 import com.ecommerce.order.repositories.CartItemRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,23 +14,19 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class CartService {
     private final CartItemRepository cartItemRepository;
+    private final ProductServiceClient productServiceClient;
 
     public boolean addToCart(String userId, CartItemRequest request) {
-//        Optional<Product> productOpt = productRepository.findById(request.getProductId());
-//
-//        if(productOpt.isEmpty()) {
-//            return false;
-//        }
-//
-//        Product product = productOpt.get();
-//        if(request.getQuantity() > product.getStockQuantity()) {
-//            return false;
-//        }
-//
+        ProductResponse productResponse = productServiceClient.getProductDetails(String.valueOf(request.getProductId()));
+
+        if(productResponse == null || productResponse.getStockQuantity() < request.getQuantity()) {
+            return false;
+        }
+
 //        Optional<User> userOpt = userRepository.findById(Long.valueOf(userId));
 //        if(userOpt.isEmpty()) {
 //            return false;
@@ -36,7 +34,7 @@ public class CartService {
 
 //        User user = userOpt.get();
 
-        CartItem existingCartItem = cartItemRepository.findByUserIdAndProductId(Long.valueOf(userId), request.getProductId());
+        CartItem existingCartItem = cartItemRepository.findByUserIdAndProductId(userId, request.getProductId());
 
         if (existingCartItem != null) {
             // update the quantity.
@@ -46,9 +44,8 @@ public class CartService {
             cartItemRepository.save(existingCartItem);
         } else {
             // create new cart item.
-
             CartItem cartItem = new CartItem();
-            cartItem.setUserId(Long.valueOf(userId));
+            cartItem.setUserId(userId);
             cartItem.setProductId(request.getProductId());
             cartItem.setQuantity(request.getQuantity());
             cartItem.setPrice(BigDecimal.valueOf(1000));
@@ -58,7 +55,7 @@ public class CartService {
         return true;
     }
 
-    public boolean deleteItemFromCart(Long userId, Long productId) {
+    public boolean deleteItemFromCart(String userId, Long productId) {
         CartItem cartItem = cartItemRepository.findByUserIdAndProductId(userId, productId);
 
         if(cartItem != null) {
@@ -69,11 +66,11 @@ public class CartService {
         return false;
     }
 
-    public List<CartItem> getCart(Long userId) {
+    public List<CartItem> getCart(String userId) {
         return cartItemRepository.findByUserId(userId);
     }
 
-    public void clearCart(Long userId) {
+    public void clearCart(String userId) {
         cartItemRepository.deleteByUserId(userId);
     }
 }

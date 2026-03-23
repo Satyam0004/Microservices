@@ -27,7 +27,7 @@ public class CartController {
 
     @DeleteMapping("/items/{productId}")
     public ResponseEntity<Void> removeFromCart(
-            @RequestHeader("X-User-ID") Long userId,
+            @RequestHeader("X-User-ID") String userId,
             @PathVariable Long productId
     ) {
         boolean deleted = cartService.deleteItemFromCart(userId, productId);
@@ -37,7 +37,7 @@ public class CartController {
 
     @GetMapping
     public ResponseEntity<List<CartItem>> getCart(
-            @RequestHeader("X-User-ID") Long userId
+            @RequestHeader("X-User-ID") String userId
     ) {
         return ResponseEntity.ok(cartService.getCart(userId));
     }

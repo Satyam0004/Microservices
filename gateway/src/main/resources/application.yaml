@@ -18,3 +18,30 @@ spring:
             - Path=/api/orders, /api/orders/**, /api/cart, /api/cart/**
 server:
   port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+logging:
+  level:
+    root: info
+    org.springframework.cloud.gateway.route.RouteDefinitionLocator: INFO
+    org.springframework.cloud.gateway: TRACE
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+    tracing:
+      sampling:
+        probability: 1.0

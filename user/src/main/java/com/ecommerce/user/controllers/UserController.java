@@ -20,6 +20,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
+        System.out.println("REQUEST RECIEVED");
         return ResponseEntity.ok(userService.fetchAllUsers());
     }
 

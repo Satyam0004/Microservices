@@ -24,7 +24,11 @@ public class GatewayConfig {
 
                 .route("user-service", r -> r
                         .path("/api/users", "/api/users/**", "/users", "/users/**")
-                        .filters(f -> f.rewritePath("^/users(?<segment>/?.*)", "/api/users${segment}"))
+                        .filters(f -> f
+                                .circuitBreaker(config -> config
+                                        .setFallbackUri("forward:/fallback/users")
+                                        .setName("ecomBreaker"))
+                                .rewritePath("^/users(?<segment>/?.*)", "/api/users${segment}"))
                         .uri("lb://USER-SERVICE"))
 
                 .route("order-service", r -> r
@@ -39,6 +43,9 @@ public class GatewayConfig {
                                 "/cart/**"
                         )
                         .filters(f -> f
+                                .circuitBreaker(config -> config
+                                        .setName("ecomBreaker")
+                                        .setFallbackUri("forward:/fallback/orders"))
                                 .rewritePath("^/orders(?<segment>/?.*)", "/api/orders${segment}")
                                 .rewritePath("^/cart(?<segment>/?.*)", "/api/cart${segment}")
                         )

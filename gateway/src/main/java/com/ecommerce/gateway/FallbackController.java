@@ -16,4 +16,14 @@ public class FallbackController {
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(Collections.singletonList("Product service is unavailable, please try after sometime"));
     }
+    @GetMapping("/fallback/orders")
+    public ResponseEntity<List<String>> ordersFallback() {
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(Collections.singletonList("Orders service is unavailable, please try after sometime"));
+    }
+    @GetMapping("/fallback/users")
+    public ResponseEntity<List<String>> usersFallback() {
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(Collections.singletonList("Users service is unavailable, please try after sometime"));
+    }
 }

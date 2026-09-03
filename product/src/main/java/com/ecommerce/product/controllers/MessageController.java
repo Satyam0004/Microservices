@@ -1,5 +1,7 @@
 package com.ecommerce.product.controllers;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,12 @@ public class MessageController {
     private String message;
 
     @GetMapping("/message")
+    @RateLimiter(name = "rateBreaker", fallbackMethod = "getMessageFallBack")
     public String getMessage() {
         return message;
+    }
+
+    public String getMessageFallBack(Exception ex) {
+        return "Hello FallBack";
     }
 }

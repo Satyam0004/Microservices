@@ -45,6 +45,9 @@ logging:
       max-file-size: 5MB
       max-history: 7
 
+app:
+  message: "Hello from Order"
+
 # Circuit Breaker
 resilience4j:
   circuitbreaker:
@@ -66,7 +69,7 @@ resilience4j:
 
   ratelimiter:
     instances:
-      retryBreaker:
+      rateBreaker:
         timeout-duration: 0
-        limit-refresh-period: 4
+        limit-refresh-period: 4s
         limit-for-period: 4
